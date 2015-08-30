@@ -34,10 +34,58 @@ plot(y(:,1),y(:,2),'k.')
 %% View change possibility
 N = size(eyeData,3);
 D = zeros(1,N);
+
+eyePair = vision.CascadeObjectDetector('EyePairBig');
+eye = vision.CascadeObjectDetector('RightEye');
+
+threshold = 1;
+
+df = zeros(1,N);
+
 for i = 1:N
-    subplot(211)
-    imshow(uint8(eyeData(:,:,i)),'initialmagnification','fit')
-    subplot(212)
+    eq = histeq(uint8(eyeData(:,:,i)));
+    %eq = uint8(eyeData(:,:,i));
+    
+    eyesBB = step(eyePair, eq);
+    
+    h(:,i) = imhist(imcrop(eq, eyesBB(1,:)));
+    if i > 1
+       %df(i) = sum(h(:,i) - mean(h,2)); 
+       [~, df(i)] = ttest(h(:,i-1),h(:,i));
+       %[~, df(i)] = SPLL(h(:,i-1),h(:,i));
+    end
+    
+    eyeBB = step(eye, eq);
+    
+    subplot(411)
+    imshow(imfilter(eq, fspecial('sobel')));
+    %imshow(edge(eq,'canny', 0.6, 1),'initialmagnification','fit')
+    
+    for j=1:size(eyesBB,1)
+        if df(i) >= threshold
+            color = 'r';
+        else
+            color = 'b';
+        end
+        rectangle('Position',eyesBB(j,:),'LineWidth',4,'LineStyle','-','EdgeColor',color);
+    end
+    subplot(412)
     plot(y(1:i,1))
+    subplot(413)
+    
+    crop = imcrop(eq, eyesBB(1,:));
+    histogram(crop);
+    
+    subplot(414)
+    
+    BW = imfilter(crop, fspecial('sobel'));%edge(crop,'canny');
+    [H,T,R] = hough(BW,'RhoResolution',0.5,'Theta',-90:0.5:89.5);
+    
+    imshow(imadjust(mat2gray(H)));
+    colormap(hot)
+    %plot(1:size(eq,1), mean(eq,2), 'r')
+    %axis([0 30 20 60]);
+    %plot(df(1:i), 'b-');
+
     drawnow
 end

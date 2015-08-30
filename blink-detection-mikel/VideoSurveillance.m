@@ -130,7 +130,7 @@ classdef VideoSurveillance < handle
                 % Get the next frame.
                 currentFrame = vs.video.readFrame(); %snapshot(cam);
                 frameCount = frameCount + 1;
-                
+
                 vs.doLoop(currentFrame);
                 
                 % Check whether the video player window has been closed.
