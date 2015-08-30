@@ -15,6 +15,7 @@ classdef BlinkDetector < handle
         bwim = [];
         bwThreshold = 0;
         ready = 0;
+        secondsPerWindow = 3;
     end
     
     methods (Access = public)

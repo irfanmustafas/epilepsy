@@ -1,6 +1,7 @@
 FRAMES_PER_SECOND = 25;
 bd = BlinkDetector(FRAMES_PER_SECOND);
 bd.bwThreshold = 0.3;
+bd.secondsPerWindow = 10;
 helpers = HelperFunctions(bd);
 
 timerFcn = @(vid,event) helpers.step(peekdata(vid,1));
