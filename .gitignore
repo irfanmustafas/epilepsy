@@ -17,3 +17,7 @@ data/
 
 # Simulink Code Generation
 slprj/
+
+# Compressed files
+*.zip
+*.rar
