@@ -1,5 +1,8 @@
+addpath('methods/');
+
 FRAMES_PER_SECOND = 25;
 bd = BlinkDetector(FRAMES_PER_SECOND);
+bd.setExtractorMethod(CountPixelsMethod());
 bd.bwThreshold = 0.3;
 bd.secondsPerWindow = 10;
 helpers = HelperFunctions(bd);

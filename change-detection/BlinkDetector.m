@@ -5,6 +5,7 @@ classdef BlinkDetector < handle
         windowNormalised = [];
         windowSize = 0;
         eyesDetector = vision.CascadeObjectDetector('EyePairBig');
+        pointTracker = vision.PointTracker('MaxBidirectionalError', 2);
     end
     
     properties (Access = public)
@@ -16,6 +17,7 @@ classdef BlinkDetector < handle
         bwThreshold = 0;
         ready = 0;
         secondsPerWindow = 3;
+        extractorMethod = CornersMethod();
     end
     
     methods (Access = public)
@@ -45,12 +47,10 @@ classdef BlinkDetector < handle
             if isempty(this.eyesBB)
                 return;
             else
-                % Crop, threshold to binary and count black pixels.
+                % Crop, threshold to binary and pass to extractor method.
                 eyes = imcrop(filtered,this.eyesBB(1,:));
                 this.bwim = im2bw(eyes, this.bwThreshold);
-                whitePixels = sum(this.bwim(:));
-                blackPixels = numel(this.bwim) - whitePixels;
-                this.st = blackPixels;
+                this.st = this.extractorMethod.extract(this.bwim);
             end
             
             this.change = 0;
@@ -71,6 +71,11 @@ classdef BlinkDetector < handle
                 this.window = [this.window this.st];
             end
 
+        end
+
+        function setExtractorMethod(this, method)
+            assert(isa(method, 'AbstractMethod'));
+            this.extractorMethod = method;
         end
     end
 end
