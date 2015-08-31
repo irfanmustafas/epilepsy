@@ -5,7 +5,6 @@ classdef BlinkDetector < handle
         windowNormalised = [];
         windowSize = 0;
         eyesDetector = vision.CascadeObjectDetector('EyePairBig');
-        pointTracker = vision.PointTracker('MaxBidirectionalError', 2);
     end
     
     properties (Access = public)
@@ -17,7 +16,7 @@ classdef BlinkDetector < handle
         bwThreshold = 0;
         ready = 0;
         secondsPerWindow = 3;
-        extractorMethod = CornersMethod();
+        extractorMethod;
     end
     
     methods (Access = public)
@@ -27,6 +26,7 @@ classdef BlinkDetector < handle
             % should contain some example of blinking to maintain a
             % sensible activation threshold from std dev. 
             this.windowSize = ceil(fps)*3;
+            
         end
         
         % Process a new frame
@@ -74,8 +74,10 @@ classdef BlinkDetector < handle
         end
 
         function setExtractorMethod(this, method)
+
             assert(isa(method, 'AbstractMethod'));
             this.extractorMethod = method;
+            
         end
     end
 end
