@@ -17,7 +17,6 @@ helpers = HelperFunctions(bd);
 video = VideoReader('video1.mp4');
 
 firstFrame = video.readFrame;
-bd.bwThreshold = estimate_threshold(firstFrame);
 
 figure; imshow(uint8(zeros(480,640,3))); hold on;
 

@@ -25,7 +25,7 @@ classdef BlinkDetector < handle
             % Window size is open to interpretation. Ideally the window
             % should contain some example of blinking to maintain a
             % sensible activation threshold from std dev. 
-            this.windowSize = ceil(fps)*3;
+            this.windowSize = ceil(fps)*this.secondsPerWindow;
             
         end
         
@@ -37,9 +37,9 @@ classdef BlinkDetector < handle
             % 3. Apply gaussian filter (Denoise)
             filtered = imgaussfilt(histeq(rgb2gray(frame)));
             
-            % Naive rule of thumb for threshold if not specified.
+            % estimate threshold if not specified.
             if this.bwThreshold == 0
-                this.bwThreshold = 1-mean(im2double(filtered(:)));
+                this.bwThreshold = estimate_threshold(frame);
             end
             
             this.eyesBB = step(this.eyesDetector, filtered);
