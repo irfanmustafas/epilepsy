@@ -1,3 +1,3 @@
 @echo off
 echo Attempting to update from remote repository...
-git pull origin master && echo Update completed successfully.
+git pull origin master >NUL 2>NUL && echo Update completed successfully.

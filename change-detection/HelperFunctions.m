@@ -55,6 +55,22 @@ classdef HelperFunctions < handle
             end
             drawnow;
         end
+        
+        function stepHiPerf(this, frame)
+           this.processFrame(frame); 
+           if this.bd.ready
+                this.data = [this.data this.bd.nst];
+           end
+           
+           plot(this.data, 'b-', 'LineWidth', 2);
+           hold on;
+           if this.bd.change
+               this.blinks = this.blinks + 1;
+               plot(length(this.data), this.data(end), 'ro', 'MarkerSize', 10);
+               xlabel(sprintf('%d blinks', this.blinks));
+           end
+           drawnow;
+        end
     end
     
 end
