@@ -1,2 +1,2 @@
-addpath('/change-detection')
+addpath('change-detection/')
 online
