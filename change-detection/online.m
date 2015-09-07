@@ -1,17 +1,17 @@
-addpath('methods/');
+function online(resolution, FPS, secondsPerWindow, method)
 
-FRAMES_PER_SECOND = 25;
-bd = BlinkDetector(FRAMES_PER_SECOND);
-bd.setExtractorMethod(CountPixelsMethod());
-bd.secondsPerWindow = 5;
+bd = BlinkDetector(FPS);
+bd.setExtractorMethod(method);
+bd.secondsPerWindow = secondsPerWindow;
 helpers = HelperFunctions(bd);
 
 timerFcn = @(vid,event) helpers.step(peekdata(vid,1));
 
-vidobj = videoinput('winvideo',1,'MJPG_640x480');
+global vidobj 
+vidobj = videoinput('winvideo',1,resolution);
 triggerconfig(vidobj, 'manual');
 
-set(vidobj, 'TimerPeriod', 1/FRAMES_PER_SECOND);
+set(vidobj, 'TimerPeriod', 1/FPS);
 set(vidobj, 'TimerFcn', timerFcn);
 
 figure; imshow(uint8(zeros(480,640,3))); hold on;
@@ -20,4 +20,5 @@ start(vidobj);
 pause(30);
 stop(vidobj);
 
+end
 

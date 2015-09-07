@@ -39,7 +39,13 @@ classdef BlinkDetector < handle
             
             % estimate threshold if not specified.
             if this.bwThreshold == 0
+                try
                 this.bwThreshold = estimate_threshold(frame);
+                catch error
+                    warning(error.message)
+                    warning('Could not estimate threshold. Setting to sane default.');
+                    this.bwThreshold = 0.3;
+                end
             end
             
             this.eyesBB = step(this.eyesDetector, filtered);
