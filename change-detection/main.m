@@ -2,10 +2,13 @@ clear all;
 clc;
 close all;
 
-addpath('../data');
-addpath('methods/');
+%addpath('../data');
+%addpath('methods/');
+addpath 'C:\Users\willf\Pictures\blinks\72cm.seated.light.move'
 
-method = CountPixelsMethod();
+video = VideoReader('1280x720.mp4');
+
+method = exmethods.CountPixelsMethod();
 
 FRAMES_PER_SECOND = 25;
 bd = BlinkDetector(FRAMES_PER_SECOND);
@@ -14,7 +17,7 @@ bd.secondsPerWindow = 10;
 helpers = HelperFunctions(bd);
 
 %video = VideoReader('video4.wmv');
-video = VideoReader('video1.mp4');
+%video = VideoReader('320x180.mp4');
 
 firstFrame = video.readFrame;
 

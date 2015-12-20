@@ -75,7 +75,7 @@ classdef BlinkDetector < handle
 
         function setExtractorMethod(this, method)
 
-            assert(isa(method, 'AbstractMethod'));
+            assert(isa(method, 'exmethods.AbstractMethod'));
             this.extractorMethod = method;
             
         end
