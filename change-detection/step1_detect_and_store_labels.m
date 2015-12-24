@@ -2,10 +2,10 @@ clc;
 close all;
 clear all;
 
-path = 'C:\Users\willf\Pictures\blinks\72cm.seated.light.nomove';
+path = '~/Videos/blinks/72cm.seated.light.nomove';
 addpath(path);
 
-extension = '.mp4';
+extension = '.ogv';
 resolutions = {'1280x720' '640x480' '320x180' '160x90'};
 
 for i=1:numel(resolutions)
@@ -37,7 +37,7 @@ for i=1:numel(resolutions)
     %d.change_callback = @(frame) changeFrames = [changeFrames frame];
     %d.go();
 
-    save([path '\' res '.mat'], 'changeFrames', 'time', 'st');
+    save([path filesep res '.mat'], 'changeFrames', 'time', 'st');
     
 end
 
