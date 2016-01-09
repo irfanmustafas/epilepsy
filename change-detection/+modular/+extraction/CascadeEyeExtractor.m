@@ -8,8 +8,13 @@ classdef CascadeEyeExtractor < modular.extraction.AbstractEyeExtractor
     
     methods
         function eye = getEyeImage(this, input)
+            figure('Visible','off');
             bb = step(this.extractor, input);
+            if size(bb,1) > 1
+                bb = bb(1,:);
+            end
             eye = imcrop(input, bb);
+            
             %eye = imresize(eye, [150,500]);
         end
     end

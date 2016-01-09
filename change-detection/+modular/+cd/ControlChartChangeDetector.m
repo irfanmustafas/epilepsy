@@ -2,6 +2,10 @@ classdef ControlChartChangeDetector < modular.cd.AbstractChangeDetector
     %CONTROLCHARTCHANGEDETECTOR Summary of this class goes here
     %   Detailed explanation goes here
     
+    properties
+        deviations = 2;
+    end
+    
     methods
         
         function obj = ControlChartChangeDetector(window_size)
@@ -12,7 +16,7 @@ classdef ControlChartChangeDetector < modular.cd.AbstractChangeDetector
             normalised = 1-zscore(this.window);
             
             c = 0;
-            if abs(normalised(end)) > 2*std(normalised)
+            if abs(normalised(end)) > this.deviations*std(normalised)
                 c = 1;
             end
 

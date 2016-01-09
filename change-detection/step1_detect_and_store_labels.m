@@ -2,7 +2,7 @@ clc;
 close all;
 clear all;
 
-path = 'C:\Users\willf\Pictures\blinks\72cm.seated.light.nomove';
+path = 'C:\Users\willf\Pictures\blinks\104cm.seated.light.nomove';
 addpath(path);
 
 extension = '.mp4';
@@ -18,7 +18,8 @@ for i=1:numel(resolutions)
     d = modular.Detector(video);
         
     d.eyeExtractor = modular.extraction.PointTrackingEyeExtractor();
-    d.changeDetector = modular.cd.ControlChartChangeDetector(75);
+    d.changeDetector = modular.cd.ControlChartChangeDetector(50);
+    d.changeDetector.deviations = 3;
     
     %d.step_callback = @step_callback;
     
